@@ -6,6 +6,7 @@ import com.assignment.weatherapp.service.WeatherService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -24,13 +25,17 @@ public class WeatherScheduler {
     private WeatherService weatherService;
 
 
-    private final String apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={apiKey}&units=metric";
+    @Value("${weather.api.url}")
+    private String apiUrl;
+
+    @Value("${weather.api.key}")
+    private String apiKey;
+
+    @Value("${weather.fixedRate}")
+    private long fixedRate;
 
 
-    private final String apiKey = "80c00845c915da2c8d908adade9e08a7";
-
-
-    @Scheduled(fixedRate = 3600000)
+    @Scheduled(fixedRateString = "${weather.fixedRate}")
     public void fetchWeatherData() {
         List<Location> locations = locationService.getAllLocations();
         for (Location location : locations) {
