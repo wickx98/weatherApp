@@ -28,4 +28,20 @@ public class LocationService {
     public void deleteLocation(Long id) {
         repository.deleteById(id);
     }
+
+    public Location updateLocation(Long id, Location location) {
+        Optional<Location> existingLocationOpt = repository.findById(id);
+
+        if (existingLocationOpt.isPresent()) {
+            Location existingLocation = existingLocationOpt.get();
+
+            existingLocation.setName(location.getName());
+            existingLocation.setLatitude(location.getLatitude());
+            existingLocation.setLongitude(location.getLongitude());
+
+            return repository.save(existingLocation);
+        }
+
+        return null;
+    }
 }
