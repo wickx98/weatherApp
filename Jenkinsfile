@@ -53,7 +53,16 @@ pipeline {
                 }
             }
         }
-
+        stage('security scan'){
+            steps {
+                 script {
+                    echo 'Security scan...'
+                    bat """
+                         docker scout cves ${DOCKER_IMAGE}:${env.BUILD_ID}
+                         """
+                }
+            }
+        }
         stage('Connect to Docker Hub') {
             steps {
                 script {
