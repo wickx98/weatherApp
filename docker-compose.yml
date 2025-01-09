@@ -1,10 +1,6 @@
-version: '3.8'
-
 services:
   spring-boot-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: wickx98/weatherapp:latest
     container_name: spring-boot-app
     ports:
       - "8081:8080"
