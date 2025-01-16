@@ -31,9 +31,6 @@ public class WeatherScheduler {
     @Value("${weather.api.key}")
     private String apiKey;
 
-    @Value("${weather.fixedRate}")
-    private long fixedRate;
-
 
     @Scheduled(fixedRateString = "${weather.fixedRate}")
     public void fetchWeatherData() {

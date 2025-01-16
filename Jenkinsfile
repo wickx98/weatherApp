@@ -47,7 +47,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def tag = "${DOCKER_IMAGE}:${env.BUILD_ID}"
+                    def tag = "${DOCKER_IMAGE}:latest"
                     echo 'Building Docker image...'
                     docker.build(tag)
                 }
@@ -58,7 +58,7 @@ pipeline {
                  script {
                     echo 'Security scan...'
                     bat """
-                         docker scout cves ${DOCKER_IMAGE}:${env.BUILD_ID}
+                         docker scout cves ${DOCKER_IMAGE}:latest
                          """
                 }
             }
@@ -88,7 +88,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        def tag = "${DOCKER_IMAGE}:${env.BUILD_ID}"
+                        def tag = "${DOCKER_IMAGE}:latest"
                         echo 'Pushing Docker image to Docker Hub...'
                         docker.image(tag).push()
 
